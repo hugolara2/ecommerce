@@ -1,0 +1,25 @@
+extends layout.pug
+
+block hero 
+  setion.hero.is-dark.is-bold
+    .hero-body  
+      .container
+        h1.title Nombre perron shop 
+        h2.subtitle Find the best products en la besto store
+
+block content
+  .container(stylesheet="flex: 1; padding: 50px 0p;")
+    .columns.is-multiline
+      each product in products 
+        .column-is-one-quarter
+          .card 
+            .card-image
+            .card-content 
+              h1.title= product.name
+              .button.is-fullwidth.is-primary 
+                span.icon
+                  i.fas.fa-shopping-cart  
+                span Cart 
+                  strong= `${product.price} USD` 
+
+
