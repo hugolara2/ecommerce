@@ -7,7 +7,8 @@ const  productService = new ProductService();
 
 router.get('/', async (req, res, next) => {
   const { tags } = req.query;
-  
+  console.log('request:', req);
+
   try{
     const product = await productService.getProducts({ tags });
 
@@ -23,13 +24,14 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:productId', async (req, res, next) => {
   const { productId } = req.params;
+  console.log('request:', req);
 
   try{
-    const product = await productService.getProduct({ productId });
+    const products = await productService.getProduct({ productId });
 
     res.status(200).json({
-      data: product,
-      message: 'product retrieved'
+      data: products,
+      message: 'products retrieved'
     });
   } catch(err) {
     next(err);
@@ -39,6 +41,7 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   const { body: product } = req ;
+  console.log('request:', req);
 
   try{
     const producto = await productService.createProduct({ product });
@@ -56,11 +59,12 @@ router.post('/', async (req, res, next) => {
 router.put('/:productId', async (req, res, next) => {
   const { productId } = req.params;
   const { body: product } = req;
+  console.log('request:', req);
 
   try{
-    const producto = await productService.updateProduct({ productId, product });
+    const updatedProducto = await productService.updateProduct({ productId, product });
     res.status(200).json({
-      data: producto,
+      data: updatedProducto,
       message: 'product updated'
     });
   } catch(err) {
@@ -72,11 +76,12 @@ router.put('/:productId', async (req, res, next) => {
 router.patch('/:productId', async (req, res, next) => {
   const { productId } = req.params;
   const { body: product } = req; 
+  console.log('request:', req);
 
   try{
-    const producto = await productService.patchProduct({ productId, product });
+    const patchedProducto = await productService.patchProduct({ productId, product });
     res.status(200).json({
-      data: producto,
+      data: patchedProducto,
       message: "Product updated"
     });
   } catch(err) {
@@ -87,11 +92,12 @@ router.patch('/:productId', async (req, res, next) => {
 
 router.delete('/:productId', async (req, res, next) => {
   const { productId } = req.params;
+  console.log('request:', req);
 
   try{
-    const product = await productService.deleteProduct({ productId });
+    const deletedProduct = await productService.deleteProduct({ productId });
     res.status(200).json({
-      data: product,
+      data: deletedProduct,
       message: 'product deleted'
     });
   } catch(err) {
