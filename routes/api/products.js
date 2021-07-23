@@ -7,7 +7,6 @@ const  productService = new ProductService();
 
 router.get('/', async (req, res, next) => {
   const { tags } = req.query;
-  console.log('request:', req);
 
   try{
     const product = await productService.getProducts({ tags });
@@ -24,7 +23,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:productId', async (req, res, next) => {
   const { productId } = req.params;
-  console.log('request:', req);
 
   try{
     const products = await productService.getProduct({ productId });
@@ -41,7 +39,6 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   const { body: product } = req ;
-  console.log('request:', req);
 
   try{
     const producto = await productService.createProduct({ product });
@@ -59,7 +56,6 @@ router.post('/', async (req, res, next) => {
 router.put('/:productId', async (req, res, next) => {
   const { productId } = req.params;
   const { body: product } = req;
-  console.log('request:', req);
 
   try{
     const updatedProducto = await productService.updateProduct({ productId, product });
@@ -76,7 +72,6 @@ router.put('/:productId', async (req, res, next) => {
 router.patch('/:productId', async (req, res, next) => {
   const { productId } = req.params;
   const { body: product } = req; 
-  console.log('request:', req);
 
   try{
     const patchedProducto = await productService.patchProduct({ productId, product });
@@ -92,7 +87,6 @@ router.patch('/:productId', async (req, res, next) => {
 
 router.delete('/:productId', async (req, res, next) => {
   const { productId } = req.params;
-  console.log('request:', req);
 
   try{
     const deletedProduct = await productService.deleteProduct({ productId });
