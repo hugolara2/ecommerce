@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const productsRouter = require('./routes/products');
+const productsRouter = require('./routes/views/products');
 const productApiRouter = require('./routes/api/products');
 
 //app
