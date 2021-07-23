@@ -69,6 +69,22 @@ router.put('/:productId', async (req, res, next) => {
   
 });
 
+router.patch('/:productId', async (req, res, next) => {
+  const { productId } = req.params;
+  const { body: product } = req; 
+
+  try{
+    const producto = await productService.patchProduct({ productId, product });
+    res.status(200).json({
+      data: producto,
+      message: "Product updated"
+    });
+  } catch(err) {
+    next(err);
+  }
+
+});
+
 router.delete('/:productId', async (req, res, next) => {
   const { productId } = req.params;
 

@@ -20,6 +20,9 @@ class ProductService {
   updateProduct({ productId, product }) {
     return Promise.resolve(productsMocks[0]);
   }
+  patchProduct({ productId, product }) {
+    return Promise.resolve(productsMocks[0]);
+  }
 
   deleteProduct({ productId }) {
     return Promise.resolve(productsMocks[0]);
