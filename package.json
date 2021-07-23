@@ -13,6 +13,10 @@
     "node",
     "express"
   ],
+  "repository": {
+    "github": "https://github.com/hugolara2/ecommerce.git",
+    "gitlab": "https://gitlab.com/hugolara/ecommerce.git"
+  },
   "author": "Hugo Lara <hugo.alex200197@outlook.com>",
   "license": "MIT",
   "dependencies": {
