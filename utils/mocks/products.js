@@ -18,6 +18,10 @@ const productsMocks = [
   {
     name: "XBox Series X",
     price: 500
+  },
+  {
+    name: "Jeans",
+    price: 20
   }
 ];
 

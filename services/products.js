@@ -13,23 +13,28 @@ class ProductService {
     return products || [];
   }
 
-  getProduct({ productId} ) {
-    return Promise.resolve(productsMocks[0]);
+  async getProduct({ productId} ) {
+    const product = await this.mongoDB.get(this.collection, productId);
+    return product || {};
   }
 
-  createProduct({ product  }) {
-    return Promise.resolve(productsMocks[0]);
+  async createProduct({ product  }) {
+    const newProduct = await this.mongoDB.create(this.collection, product);
+    return newProduct;
   }
 
-  updateProduct({ productId, product }) {
-    return Promise.resolve(productsMocks[0]);
+  async updateProduct({ productId, product }) {
+    const updateProduct = await this.mongoDB.update(this.collection, productId, product);
+    return updateProduct;
   }
   patchProduct({ productId, product }) {
     return Promise.resolve(productsMocks[0]);
+    //TODO: Crear metodo para patch
   }
 
-  deleteProduct({ productId }) {
-    return Promise.resolve(productsMocks[0]);
+  async deleteProduct({ productId }) {
+    const deleteProduct = await this.mongoDB.delete(this.collection, productId);
+    return deleteProduct;
   }
 
 }
