@@ -2,7 +2,14 @@ const express = require('express');
 const router = express.Router();
 const ProductService = require('../../services/products');
 
-const  productService = new ProductService();
+const validation = require('../../utils/middlewares/validatioHandler');
+
+const { productIdSchema, 
+  productTagSchema, 
+  createProductSchema, 
+  updateProductSchema} = require('../../utils/schemas/products'); 
+
+const productService = new ProductService();
 
 
 router.get('/', async (req, res, next) => {
@@ -37,7 +44,7 @@ router.get('/:productId', async (req, res, next) => {
 
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', validation(createProductSchema), async (req, res, next) => {
   const { body: product } = req ;
 
   try{
@@ -53,7 +60,8 @@ router.post('/', async (req, res, next) => {
   
 });
 
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', validation({ productId: productIdSchema }, "params"), validation(updateProductSchema), 
+  async (req, res, next) => {
   const { productId } = req.params;
   const { body: product } = req;
 

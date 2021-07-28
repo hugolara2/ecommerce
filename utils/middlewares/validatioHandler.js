@@ -1,5 +1,8 @@
+const Joi = require('joi');
+
 function validate(data, schema) {
-  return false;
+  const { error } = Joi.object(schema).validate(data);
+  return error;
 }
 
 //Lo ideal a demas del body es poder checar los parametros de url's 
