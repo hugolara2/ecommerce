@@ -1,5 +1,7 @@
 const Sentry = require('@sentry/node');
 const { config } = require('../../config');
+const boom = require('boom');
+const isRequestAjaxOrApi = require('../../utils/isRequestAjaxOrApi');
 
 const Tracing = require('@sentry/tracing');
 
@@ -26,33 +28,45 @@ const transaction = Sentry.startTransaction({
 //   }
 // }, 99);
 
+function withErrorStack(err, stack) {
+  if(config.dev) {
+    return { ...err, stack };
+  }
+}
+
 function logErrors(err, req, res, next) {
   Sentry.captureException(err);
   console.log(err.stack);
   next(err);
 }
 
+function wrapErrors(err, req, res, next) {
+  if(!err.isBoom) {
+    next(boom.badImplementation(err));
+  }
+  next(err);
+}
+
 function clienErrorHandler(err, req, res, next) {
-  //CAtch errors for ajax reques
-  if(req.xhr) {
-    res.status(500).json({ err: err });
+  const {
+    output: { statusCode, payload}
+  } = err;
+
+  //Catch errors for ajax request or if an error ocurrs while streaming
+  if(isRequestAjaxOrApi(req) || res.headersSent) {
+    res.status(500).json(withErrorStack(payload, err.stack));
   } else {
     next(err);
   }
 }
 
 function errorHandler(err, req, res, next) {
-  //Catch error while streaming
-  if(res.headersSent) {
-    next(err);
-  }
-  
-  if(!config.dev) {
-    delete err.stack;
-  }
+  const {
+    output: { statusCode, payload}
+  } = err; 
 
-  res.status(err.status || 500);
-  res.render("error", { error: err.message } );
+  res.status(statusCode);
+  res.render("error", withErrorStack(payload, err.stack));
 
 }
 
@@ -60,5 +74,5 @@ module.exports = {
   logErrors,
   clienErrorHandler,
   errorHandler,
-
+  wrapErrors
 };
