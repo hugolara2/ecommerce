@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const boom = require('boom');
 const productsRouter = require('./routes/views/products');
 const productApiRouter = require('./routes/api/products');
+const authApiRouter = require('./routes/api/auth');
 
 const {
   errorHandler,
@@ -17,6 +18,7 @@ const {
 } = require('./utils/middlewares/errorsHandles'); 
 
 const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
+const api = require('./routes/api/auth');
 
 //app
 const app = express();
@@ -36,6 +38,7 @@ app.use(bodyParser.json());
 //Routes
 app.use('/products', productsRouter);
 app.use("/api/products", productApiRouter);
+api.use("/api/auth", authApiRouter);
 
 //Redirect
 app.get('/', (req, res) => {
