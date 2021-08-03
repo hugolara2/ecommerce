@@ -1,4 +1,8 @@
+/**
+ * TODO: Usar jwt para red social.
+ */
 const express = require('express');
+const passport = requuire('passport');
 const router = express.Router();
 const ProductService = require('../../services/products');
 
@@ -8,6 +12,9 @@ const { productIdSchema,
   productTagSchema, 
   createProductSchema, 
   updateProductSchema} = require('../../utils/schemas/products'); 
+
+// JWT strategy
+require('../../utils/auth/strategies/jwt');
 
 const productService = new ProductService();
 
@@ -60,7 +67,7 @@ router.post('/', validation(createProductSchema), async (req, res, next) => {
   
 });
 
-router.put('/:productId', validation({ productId: productIdSchema }, "params"), validation(updateProductSchema), 
+router.put('/:productId', passport.authenticate("jwt", { session: false}), validation({ productId: productIdSchema }, "params"), validation(updateProductSchema), 
   async (req, res, next) => {
   const { productId } = req.params;
   const { body: product } = req;
@@ -77,23 +84,23 @@ router.put('/:productId', validation({ productId: productIdSchema }, "params"), 
   
 });
 
-router.patch('/:productId', async (req, res, next) => {
-  const { productId } = req.params;
-  const { body: product } = req; 
+// router.patch('/:productId', async (req, res, next) => {
+//   const { productId } = req.params;
+//   const { body: product } = req; 
 
-  try{
-    const patchedProducto = await productService.patchProduct({ productId, product });
-    res.status(200).json({
-      data: patchedProducto,
-      message: "Product updated"
-    });
-  } catch(err) {
-    next(err);
-  }
+//   try{
+//     const patchedProducto = await productService.patchProduct({ productId, product });
+//     res.status(200).json({
+//       data: patchedProducto,
+//       message: "Product updated"
+//     });
+//   } catch(err) {
+//     next(err);
+//   }
 
-});
+// });
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', passport.authenticate("jwt", { session: false}), async (req, res, next) => {
   const { productId } = req.params;
 
   try{
