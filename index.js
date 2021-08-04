@@ -19,6 +19,7 @@ const {
 
 const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
 const api = require('./routes/api/auth');
+const { profile } = require('console');
 
 //app
 const app = express();
@@ -37,7 +38,7 @@ app.use(bodyParser.json());
 
 //Routes
 app.use('/products', productsRouter);
-app.use("/api/products", productApiRouter);
+productApiRouter(app);
 api.use("/api/auth", authApiRouter);
 
 //Redirect

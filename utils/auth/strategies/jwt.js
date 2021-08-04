@@ -1,5 +1,5 @@
 const passport = require('passport');
-const { Strategy, ExtractJWT } = require('passport-jwt');
+const { Strategy, ExtractJwt } = require('passport-jwt');
 const boom = require('boom');
 const { config } = require('../../../config');
 const MongoLib = require('../../../lib/mongo');
@@ -8,7 +8,7 @@ passport.use(
   new Strategy(
     {
       secretOrKey: config.authJwtSecret,
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
     },
     async function(tokenPayload, callback) {
       const mongoDB = new MongoLib();
